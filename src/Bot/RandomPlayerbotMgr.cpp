@@ -342,9 +342,9 @@ void RandomPlayerbotMgr::UpdateAIInternal(uint32 /*elapsed*/, bool /*minimal*/)
             if (DelayLoginBotsTimer == 0)
             {
                 DelayLoginBotsTimer = time(nullptr) + sPlayerbotAIConfig.disabledWithoutRealPlayerLoginDelay;
-                LOG_DEBUG("playerbots",
-                          "Real player in world; random bots login after {}s delay.",
-                          sPlayerbotAIConfig.disabledWithoutRealPlayerLoginDelay);
+                LOG_INFO("playerbots",
+                         "Real player in world; random bots login after {}s delay.",
+                         sPlayerbotAIConfig.disabledWithoutRealPlayerLoginDelay);
             }
         }
         else
