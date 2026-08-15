@@ -232,8 +232,8 @@ private:
     time_t LfgCheckTimer;
     time_t PlayersCheckTimer;
     time_t RealPlayerLastTimeSeen = 0;
-    time_t DelayLoginBotsTimer;
-    time_t printStatsTimer;
+    time_t DelayLoginBotsTimer = 0;
+    time_t printStatsTimer = 0;
     uint32 AddRandomBots();
     bool ProcessBot(uint32 bot);
     void ScheduleRandomize(uint32 bot, uint32 time);
