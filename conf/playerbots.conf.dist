@@ -110,10 +110,12 @@ AiPlayerbot.RandomBotAccountPrefix = "rndbot"
 # like to recreate randombots, set the number back to 0 and rerun the Worldserver.
 AiPlayerbot.DeleteRandomBotAccounts = 0
 
-# Disable randombots when no real players are logged in
+# Disable randombots when no real players are in the world
 # Default: 0 (randombots will login when server starts)
-# If enabled, randombots will only log in 30 seconds (default) after a real player logs in, and will
-# log out 300 seconds (default) after all real players log out
+# "Real player" means an in-world character — not character select or realm list.
+# If enabled, randombots log in after DisabledWithoutRealPlayerLoginDelay seconds once a real
+# player enters the world, and log out after DisabledWithoutRealPlayerLogoutDelay seconds once
+# the last real player leaves the world (including returning to character select).
 AiPlayerbot.DisabledWithoutRealPlayer = 0
 AiPlayerbot.DisabledWithoutRealPlayerLoginDelay = 30
 AiPlayerbot.DisabledWithoutRealPlayerLogoutDelay = 300

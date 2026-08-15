@@ -39,7 +39,6 @@
 #include "TravelMgr.h"
 #include "Unit.h"
 #include "World.h"
-#include "WorldSessionMgr.h"
 #include <algorithm>
 #include <boost/thread/thread.hpp>
 #include <cstdlib>
@@ -333,7 +332,9 @@ void RandomPlayerbotMgr::UpdateAIInternal(uint32 /*elapsed*/, bool /*minimal*/)
     bool realPlayerIsLogged = false;
     if (sPlayerbotAIConfig.disabledWithoutRealPlayer)
     {
-        if (sWorldSessionMgr->GetActiveAndQueuedSessionCount() > 0)
+        // Use in-world real players only (not WorldSession count). Character select
+        // keeps a session open but OnPlayerLogout already removed them from `players`.
+        if (!players.empty())
         {
             RealPlayerLastTimeSeen = time(nullptr);
             realPlayerIsLogged = true;
@@ -341,6 +342,9 @@ void RandomPlayerbotMgr::UpdateAIInternal(uint32 /*elapsed*/, bool /*minimal*/)
             if (DelayLoginBotsTimer == 0)
             {
                 DelayLoginBotsTimer = time(nullptr) + sPlayerbotAIConfig.disabledWithoutRealPlayerLoginDelay;
+                LOG_DEBUG("playerbots",
+                          "Real player in world; random bots login after {}s delay.",
+                          sPlayerbotAIConfig.disabledWithoutRealPlayerLoginDelay);
             }
         }
         else
@@ -348,6 +352,9 @@ void RandomPlayerbotMgr::UpdateAIInternal(uint32 /*elapsed*/, bool /*minimal*/)
             if (DelayLoginBotsTimer)
             {
                 DelayLoginBotsTimer = 0;
+                LOG_DEBUG("playerbots",
+                          "No real player in world; random bots logout after {}s delay.",
+                          sPlayerbotAIConfig.disabledWithoutRealPlayerLogoutDelay);
             }
 
             if (RealPlayerLastTimeSeen != 0 && onlineBotCount > 0 &&
